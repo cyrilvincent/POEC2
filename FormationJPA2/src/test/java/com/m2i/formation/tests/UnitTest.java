@@ -5,8 +5,15 @@ import static org.junit.Assert.*;
 import javax.persistence.*;
 
 import org.junit.Test;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 
 import com.m2i.formation.media.entities.Media;
+import com.m2i.formation.media.repositories.IRepository;
+import com.m2i.formation.media.repositories.MediaRepository;
 
 public class UnitTest {
 
@@ -27,6 +34,15 @@ public class UnitTest {
 		Media m = em.find(Media.class, 1);
 		assertNotNull(m);
 		
+	}
+	
+	@Test
+	public void springTest() {
+		ApplicationContext factory = new ClassPathXmlApplicationContext("spring.xml");
+		Media m = (Media)factory.getBean("media");
+		assertNotNull(m);
+		MediaRepository mr = (MediaRepository)factory.getBean("mediaRepository");
+		assertNotNull(mr);
 	}
 
 }

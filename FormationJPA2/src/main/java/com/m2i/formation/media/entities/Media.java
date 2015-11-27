@@ -3,6 +3,7 @@ package com.m2i.formation.media.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -38,13 +39,20 @@ public class Media implements Serializable {
 	@Column(nullable=false)
 	private float price;
 
-	private Integer publisherId;
-
 	@Column(nullable=false, length=25)
 	private String title;
 
 	@Column(nullable=false)
 	private int type;
+
+	//bi-directional many-to-many association to Author
+	@ManyToMany(mappedBy="medias")
+	private List<Author> authors;
+
+	//bi-directional many-to-one association to Publisher
+	@ManyToOne
+	@JoinColumn(name="publisherId")
+	private Publisher publisher;
 
 	public Media() {
 	}
@@ -113,14 +121,6 @@ public class Media implements Serializable {
 		this.price = price;
 	}
 
-	public int getPublisherId() {
-		return this.publisherId;
-	}
-
-	public void setPublisherId(int publisherId) {
-		this.publisherId = publisherId;
-	}
-
 	public String getTitle() {
 		return this.title;
 	}
@@ -135,6 +135,22 @@ public class Media implements Serializable {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public List<Author> getAuthors() {
+		return this.authors;
+	}
+
+	public void setAuthors(List<Author> authors) {
+		this.authors = authors;
+	}
+
+	public Publisher getPublisher() {
+		return this.publisher;
+	}
+
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
 	}
 
 }
